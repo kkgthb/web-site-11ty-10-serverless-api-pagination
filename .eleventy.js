@@ -1,4 +1,5 @@
 const { EleventyServerlessBundlerPlugin } = require("@11ty/eleventy");
+const single_zip_lib = require("./src/lib/get_one_zip.js");
 
 // Per 11ty from scratch, we have to have a module.exports definition
 module.exports = (eleventyConfig) => {
@@ -30,6 +31,8 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addFilter("getObjectSpread", function (obj) {
     return { ...obj };
   });
+
+  eleventyConfig.addNunjucksAsyncFilter("fetchZipDetails", single_zip_lib);
 
   // Render "firstrequestrender" on first request
   eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {

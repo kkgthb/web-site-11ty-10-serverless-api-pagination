@@ -1,0 +1,18 @@
+---
+layout: "layouts/standard_header_footer.liquid"
+tags: ["pages"]
+permalink:
+  firstrequestrender: "/zip_url_njk_sameone/:url_zip/index.html"
+eleventyComputed:
+  url_path_zip: "{{ eleventy.serverless.path.url_zip }}"
+  documentData: {{ url_path_zip | fetchZipDetails }}
+---
+<h1 class="font-bold text-2xl">City of <b class="text-red-800">{{ title }}</b>.</h1>
+
+<p>Zip code is <b class="text-green-800">{{ post_code }}</b>.</p>
+
+<p>Last rebuild:  <i class="text-purple-800">{{ nowstampstring }}</i>.</p>
+
+<p>URL path is <b class="text-yellow-800">{{ eleventy.serverless.path.url_zip }}</b>, but it's useless to me down here.  I need it before computing the HTML title.  I can get just that string into eleventyComputed -- <b class="text-yellow-800">{{ url_path_zip }}</b> -- see? -- but still not useful.</p>
+
+<p>Not to mention, documentData-fetchZipDetails is empty:  <b>{{ documentData | jsonify }}</b>.</p>

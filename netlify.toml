@@ -27,6 +27,13 @@ force = true
 _generated_by_eleventy_serverless = "firstrequestrender"
 
 [[redirects]]
+from = "/zip_url_njk_sameone/:url_zip/index.html"
+to = "/.netlify/functions/firstrequestrender"
+status = 200
+force = true
+_generated_by_eleventy_serverless = "firstrequestrender"
+
+[[redirects]]
 from = "/buildfirstrequest/"
 to = "/.netlify/functions/firstrequestrender"
 status = 200
