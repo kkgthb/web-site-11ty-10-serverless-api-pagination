@@ -14,7 +14,7 @@ class ZipBuildTime {
       },
       eleventyComputed: {
         title: (arbitraryParameterName) =>
-          arbitraryParameterName.documentData.place_name,
+          `${arbitraryParameterName.documentData.place_name} (built at site-build time)`,
       },
     };
   }

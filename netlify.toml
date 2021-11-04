@@ -6,7 +6,7 @@ force = true
 _generated_by_eleventy_serverless = "alwaysrerender"
 
 [[redirects]]
-from = "/slessposter/"
+from = "/buildfirstrequest/"
 to = "/.netlify/functions/firstrequestrender"
 status = 200
 force = true
