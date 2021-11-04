@@ -35,6 +35,11 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPlugin(EleventyServerlessBundlerPlugin, {
     name: "firstrequestrender",
     functionsDir: "./netlify/functions/",
+    copy: [
+      "./src/_data/zipcodes.js",
+      "./src/lib/fixed_one_zip_example.js",
+      "./src/lib/get_one_zip.js",
+    ],
   });
 
   // Render "firstrequestrender" on first request

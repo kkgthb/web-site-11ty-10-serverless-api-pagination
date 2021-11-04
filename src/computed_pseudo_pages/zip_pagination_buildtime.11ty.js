@@ -20,8 +20,11 @@ class ZipBuildTime {
   }
 
   render(dataFromData) {
-    // will always be "Ted"
-    return `<h1 class="font-bold text-2xl">City of "${dataFromData.title}"</h1><p>Zip code is "<b>${dataFromData.documentData.post_code}</b>."</p><p>Last rebuild:  <i class="text-purple-800">${this.nowstampstring()}</i>.</p>`;
+    return `<h1 class="font-bold text-2xl">City of <b class="text-red-800">${
+      dataFromData.title
+    }</b></h1><p>Zip code is "<b class="text-green-800">${
+      dataFromData.documentData.post_code
+    }</b>."</p><p>Last rebuild:  <i class="text-purple-800">${this.nowstampstring()}</i>.</p>`;
   }
 }
 

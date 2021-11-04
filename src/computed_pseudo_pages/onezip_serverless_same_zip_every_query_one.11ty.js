@@ -1,14 +1,18 @@
 const single_zip_lib = require("../lib/fixed_one_zip_example.js");
 
-class SingleBuildZipExample {
+class OneZipServerlessA {
   async data() {
     const single_zip = await single_zip_lib("doesnt_matter");
+    const place_name = JSON.stringify(single_zip.place_name).replace(/^"+|"+$/g, '');
+    const post_code = JSON.stringify(single_zip.post_code).replace(/^"+|"+$/g, '');
     return {
       tags: ["pages"],
       layout: "layouts/standard_header_footer.liquid",
-      permalink: "/single_build_zip_example/index.html",
-      title: `${single_zip.place_name}-hardcoded (built at site-build time)`,
-      post_code: single_zip.post_code,
+      permalink: {
+        firstrequestrender: "/zip_url_js_sameone/:url_zip/index.html",
+      },
+      title: `${place_name} (fresh hot API data but always the same query, predetermined by helper)`,
+      post_code: post_code,
     };
   }
 
@@ -21,4 +25,4 @@ class SingleBuildZipExample {
   }
 }
 
-module.exports = SingleBuildZipExample;
+module.exports = OneZipServerlessA;
