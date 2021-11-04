@@ -1,0 +1,196 @@
+const single_zip_lib = require("../lib/get_one_zip.js");
+
+class OneZipServerlessC {
+  async data() {
+    const the_zip_code = "65807"; // BUT HOW DO I SET the_zip_code from eleventy.serverless.path.url_zip ?
+    const single_zip = await single_zip_lib(the_zip_code);
+    const place_name = JSON.stringify(single_zip.place_name).replace(
+      /^"+|"+$/g,
+      ""
+    );
+    const post_code = JSON.stringify(single_zip.post_code).replace(
+      /^"+|"+$/g,
+      ""
+    );
+    return {
+      tags: ["pages"],
+      layout: "layouts/standard_header_footer.liquid",
+      permalink: {
+        firstrequestrender: "/zip_url_js_dynamic/:url_zip/index.html",
+      },
+      title: `${place_name} (fresh hot API data but always the same query, predetermined by template)`,
+      post_code: Object.keys(eleventy).join("~~"), // [11ty] > eleventy is not defined -- how will I be able to fetch an actual zip code's data if I can't use `eleventy` here?
+      //post_code: (arbitraryParameterName) => Object.keys(arbitraryParameterName).join("~~"), // Nope, just stringifies the function.  No hidden "eleventy" this way.
+    };
+  }
+
+  render(dataFromData) {
+    return `<h1 class="font-bold text-2xl">City of <b class="text-red-800">${
+      dataFromData.title
+    }</b>.</h1><p>Zip code is "<b class="text-green-800">${
+      dataFromData.post_code
+    }</b>.</p><p>Last rebuild:  <i class="text-purple-800">${this.nowstampstring()}</i>.</p>`;
+  }
+}
+
+module.exports = OneZipServerlessC;
+
+
+/*
+...
+[11ty] Writing dist/single_build_zip_example/index.html from ./src/computed_pseudo_pages/singleton_build_single_zip_example.11ty.js
+◈ Reloading function firstrequestrender...
+◈ Reloading function alwaysrerender...
+[11ty] Serverless: 2 files bundled to ./netlify\functions\alwaysrerender.
+[11ty] Serverless: 8 files bundled to ./netlify\functions\firstrequestrender.
+[11ty] Wrote 18 files in 3.77 seconds (209.4ms each, v1.0.0-beta.3)
+[11ty] Watching…
+◈ Reloaded function firstrequestrender
+◈ Reloaded function alwaysrerender
+◈ Reloading function firstrequestrender...
+◈ Reloaded function firstrequestrender
+[Browsersync] Reloading Browsers...
+◈ Rewrote URL to /.netlify/functions/firstrequestrender
+Request from ::ffff:127.0.0.1: GET /.netlify/functions/firstrequestrender
+{"post_code":"65807","place_name":"Springfield"}
+{"post_code":"65807","place_name":"Springfield"}
+{"post_code":"65807","place_name":"Springfield"}
+{"post_code":"65807","place_name":"Springfield"}
+[11ty] Benchmark (Data): `./src/_data/zipcodes.js` took 196ms (15.5%)
+Response with status 200 in 1416 ms.
+[11ty] File changed: src\computed_pseudo_pages\onezip_serverless_dynamic.11ty.js
+◈ Reloading function alwaysrerender...
+◈ Reloading function firstrequestrender...
+◈ Reloaded function alwaysrerender
+◈ Reloaded function firstrequestrender
+◈ Reloading function firstrequestrender...
+◈ Reloading function alwaysrerender...
+◈ Reloaded function firstrequestrender
+◈ Reloaded function alwaysrerender
+{"post_code":"65807","place_name":"Springfield"}
+{"post_code":"65807","place_name":"Springfield"}
+[11ty] Problem writing Eleventy templates: (more in DEBUG output)
+[11ty] Wrote 0 files in 0.53 seconds (v1.0.0-beta.3)
+[11ty] > eleventy is not defined
+
+`ReferenceError` was thrown:
+[11ty]     ReferenceError: eleventy is not defined
+        at OneZipServerlessC.data (C:\example\myrepo\src\computed_pseudo_pages\onezip_serverless_dynamic.11ty.js:27:30)
+        at runMicrotasks (<anonymous>)
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at async module.exports (C:\example\myrepo\node_modules\@11ty\eleventy\src\Util\GetJavaScriptData.js:9:18)
+        at async JavaScript.getExtraDataFromFile (C:\example\myrepo\node_modules\@11ty\eleventy\src\Engines\JavaScript.js:94:12)
+        at async Template.getFrontMatterData (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateContent.js:196:21)
+        at async Template.getData (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:377:29)
+        at async Template.getTemplateMapEntries (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:992:33)
+        at async TemplateMap.add (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateMap.js:59:21)
+        at async Promise.all (index 0)
+[11ty] Benchmark (Data): `./src/_data/zipcodes.js` took 184ms (34.6%)
+[11ty] Watching…
+[Browsersync] Reloading Browsers...
+[11ty] File changed: src\computed_pseudo_pages\onezip_serverless_dynamic.11ty.js
+◈ Reloading function firstrequestrender...
+◈ Reloading function alwaysrerender...
+◈ Reloaded function firstrequestrender
+◈ Reloaded function alwaysrerender
+◈ Reloading function firstrequestrender...
+◈ Reloading function alwaysrerender...
+◈ Reloaded function firstrequestrender
+◈ Reloaded function alwaysrerender
+{"post_code":"65807","place_name":"Springfield"}
+[11ty] Problem writing Eleventy templates: (more in DEBUG output)
+[11ty] > eleventy is not defined
+
+`ReferenceError` was thrown:
+[11ty]     ReferenceError: eleventy is not defined
+        at OneZipServerlessC.data (C:\example\myrepo\src\computed_pseudo_pages\onezip_serverless_dynamic.11ty.js:22:30)
+        at runMicrotasks (<anonymous>)
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at async module.exports (C:\example\myrepo\node_modules\@11ty\eleventy\src\Util\GetJavaScriptData.js:9:18)
+        at async JavaScript.getExtraDataFromFile (C:\example\myrepo\node_modules\@11ty\eleventy\src\Engines\JavaScript.js:94:12)
+        at async Template.getFrontMatterData (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateContent.js:196:21)
+        at async Template.getData (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:377:29)
+        at async Template.getTemplateMapEntries (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:992:33)
+        at async TemplateMap.add (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateMap.js:59:21)
+        at async Promise.all (index 0)
+[11ty] Wrote 0 files in 0.55 seconds (v1.0.0-beta.3)
+[11ty] Benchmark (Data): `./src/_data/zipcodes.js` took 299ms (54.7%)
+[11ty] Watching…
+{"post_code":"65807","place_name":"Springfield"}
+[Browsersync] Reloading Browsers...
+◈ Rewrote URL to /.netlify/functions/firstrequestrender
+Request from ::ffff:127.0.0.1: GET /.netlify/functions/firstrequestrender
+{"post_code":"65807","place_name":"Springfield"}
+[11ty] Problem writing Eleventy templates: (more in DEBUG output)
+[11ty] > eleventy is not defined
+
+`ReferenceError` was thrown:
+[11ty]     ReferenceError: eleventy is not defined
+        at OneZipServerlessC.data (C:\example\myrepo\src\computed_pseudo_pages\onezip_serverless_dynamic.11ty.js:22:30)
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at async module.exports (C:\example\myrepo\node_modules\@11ty\eleventy\src\Util\GetJavaScriptData.js:9:18)
+        at async JavaScript.getExtraDataFromFile (C:\example\myrepo\node_modules\@11ty\eleventy\src\Engines\JavaScript.js:94:12)
+        at async Template.getFrontMatterData (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateContent.js:196:21)
+        at async Template.getData (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:377:29)
+y\eleventy\src\Template.js:992:33)
+        at async TemplateMap.add (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateMap.js:59:21)
+        at async Promise.all (index 0)
+        at async TemplateWriter._createTemplateMap (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateWriter.js:241:5)
+[11ty] Benchmark (Data): `./src/_data/zipcodes.js` took 219ms (34.3%)
+Serverless Error: Error: Couldn’t find any generated output from Eleventy (URL path parameters: {"url_zip":":url_zip"}).
+    at Serverless.render (C:\example\myrepo\node_modules\@11ty\eleventy\src\Serverless.js:218:17)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async handler (C:\example\myrepo\netlify\functions\firstrequestrender\index.js:20:13) {
+  httpStatusCode: 404
+}
+Response with status 404 in 797 ms.
+PS C:\example\myrepo> netlify dev
+◈ Netlify Dev ◈
+◈ Ignored general context env var: LANG (defined in process)
+◈ Loaded function alwaysrerender.
+◈ Loaded function firstrequestrender.
+◈ Functions server is listening on 53989
+◈ Starting Netlify Dev with Eleventy
+
+> web-site-11ty-10-serverless-api-pagination@1.0.0 dev
+> npm-run-all clean build:11ty -p watch:11ty
+
+
+> web-site-11ty-10-serverless-api-pagination@1.0.0 clean
+> rimraf dist
+
+
+> web-site-11ty-10-serverless-api-pagination@1.0.0 build:11ty
+> npx @11ty/eleventy
+
+◈ Reloading function firstrequestrender...
+◈ Reloading function alwaysrerender...
+◈ Reloaded function firstrequestrender
+◈ Reloaded function alwaysrerender
+◈ Reloading function alwaysrerender...
+◈ Reloading function firstrequestrender...
+◈ Reloaded function alwaysrerender
+◈ Reloaded function firstrequestrender
+{"post_code":"65807","place_name":"Springfield"}
+{"post_code":"65807","place_name":"Springfield"}
+[11ty] Problem writing Eleventy templates: (more in DEBUG output)
+[11ty] > eleventy is not defined
+
+`ReferenceError` was thrown:
+[11ty]     ReferenceError: eleventy is not defined
+        at OneZipServerlessC.data (C:\example\myrepo\src\computed_pseudo_pages\onezip_serverless_dynamic.11ty.js:22:30)
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at async module.exports (C:\example\myrepo\node_modules\@11ty\eleventy\src\Util\GetJavaScriptData.js:9:18)
+        at async JavaScript.getExtraDataFromFile (C:\example\myrepo\node_modules\@11ty\eleventy\src\Engines\JavaScript.js:94:12)
+        at async Template.getFrontMatterData (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateContent.js:196:21)
+        at async Template.getData (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:377:29)
+        at async Template.getTemplateMapEntries (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:992:33)
+        at async TemplateMap.add (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateMap.js:59:21)
+        at async Promise.all (index 0)
+        at async TemplateWriter._createTemplateMap (C:\example\myrepo\node_modules\@11ty\eleventy\src\TemplateWriter.js:241:5)
+[11ty] Wrote 0 files in 0.76 seconds (v1.0.0-beta.3)
+[11ty] Benchmark (Data): `./src/_data/zipcodes.js` took 229ms (24.2%)
+ERROR: "build:11ty" exited with 1.
+◈ Command failed with exit code 1: npm run dev. Shutting down Netlify Dev server
+
+*/

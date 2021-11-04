@@ -1,0 +1,74 @@
+class ZipFirstVisit {
+  data() {
+    return {
+      pagination: {
+        data: "zipcodes",
+        size: 1,
+        alias: "documentData",
+        addAllPagesToCollections: true,
+      },
+      tags: ["zips", "pages"],
+      layout: "layouts/standard_header_footer.liquid",
+      permalink: (arbitraryParameterName) => {
+        return {
+          // ERROR MESSAGE:  the "path" argument must be of type string.  Received type boolean (false)
+          firstrequestrender: `/zip_firstvisit/${arbitraryParameterName.pagination.items[0].post_code}/index.html`,
+        };
+      },
+      eleventyComputed: {
+        title: (arbitraryParameterName) =>
+          `${arbitraryParameterName.documentData.place_name} (built at site-build time)`,
+      },
+    };
+  }
+
+  render(dataFromData) {
+    return `<h1 class="font-bold text-2xl">City of <b class="text-red-800">${
+      dataFromData.title
+    }</b>.</h1><p>Zip code is <b class="text-green-800">${
+      dataFromData.documentData.post_code
+    }</b>.</p><p>Last rebuild:  <i class="text-purple-800">${this.nowstampstring()}</i>.</p>`;
+  }
+}
+
+module.exports = ZipFirstVisit;
+
+/*
+...
+[11ty] Writing dist/index.html from ./src/computed_pseudo_pages/singleton_home_page.liquid
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Writing false from ./src/computed_pseudo_pages/zip_serverless.11ty.js
+[11ty] Problem writing Eleventy templates: (more in DEBUG output)
+[11ty] > Having trouble writing template: false
+
+`TemplateWriterWriteError` was thrown
+[11ty] > The "path" argument must be of type string. Received type boolean (false)
+
+`TypeError` was thrown:
+[11ty]     TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received type boolean (false)
+        at new NodeError (node:internal/errors:371:5)
+        at validateString (node:internal/validators:119:11)
+        at Object.parse (node:path:913:5)
+        at Template._write (C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:775:36)
+        at C:\example\myrepo\node_modules\@11ty\eleventy\src\Template.js:855:21     
+        at async Promise.all (index 0)
+        at async Promise.all (index 3)
+        at async Eleventy.executeBuild (C:\example\myrepo\node_modules\@11ty\eleventy\src\Eleventy.js:958:13)
+[11ty] Benchmark (Data): `./src/_data/zipcodes.js` took 429ms (42.3%)
+[11ty] Wrote 0 files in 0.80 seconds (v1.0.0-beta.3)
+ERROR: "build:11ty" exited with 1.
+*/
