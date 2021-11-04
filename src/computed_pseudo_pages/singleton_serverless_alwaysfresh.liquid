@@ -1,11 +1,39 @@
----
-layout: "layouts/standard_header_footer.liquid"
-title:  Build every visit
-permalink:
+---js
+{
+layout: "layouts/standard_header_footer.liquid",
+title:  "Build every visit",
+permalink: {
+    // We DO need a build (this feels like a bug)
+    build: "/dafasljkdfalksjdflk/",
     alwaysrerender: "/alwaysrenderthis/"
+},
+eleventyComputed: {
+    testVariable: data => {
+
+        // short circuit for when not serverless so no build errors
+        // Ideally when `build` is no longer required, this can go away
+        if (!data.eleventy.serverless) return "" 
+        
+        // initialize api
+        const algoliasearch = require("algoliasearch/lite");
+        const client = algoliasearch("DM3RZH4ZSK", "36fc36bcb1cc6c88b3c5c1689ec57250");
+        const index = client.initIndex("blog_search");
+
+        const queryThing = data.eleventy.serverless.query.query;
+        // then make api call
+        return index.search(queryThing).then(({hits}) => {
+            return hits
+        })
+    }, 
+},
+
 tags: ["pages"]
+}
 ---
 
+{% for hit in testVariable %}
+    <li>{{hit.title}}</li>
+{% endfor %}
 <h1 class="pb-4 text-3xl font-bold leading-none tracking-tight text-gray-900">I am a dynamic page; my HTML is rebuilt every time you reload <i>(last rebuild:  {% nowstampstring %})</i>.</h1>
 
 <p>I was rendered at  -- this should change every time you load the page.</p>
