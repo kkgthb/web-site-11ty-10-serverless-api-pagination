@@ -120,6 +120,6 @@ module.exports = async function () {
       zip.place_name = `${i} ${zip.place_name}`;
       return zip;
     });
-  console.error(JSON.stringify(the_data));
+  //console.error(JSON.stringify(the_data));
   return the_data;
 };
