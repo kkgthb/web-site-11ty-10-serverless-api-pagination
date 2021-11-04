@@ -32,6 +32,7 @@ module.exports = (eleventyConfig) => {
     return { ...obj };
   });
 
+  eleventyConfig.addLiquidFilter("fetchZipDetails", single_zip_lib);
   eleventyConfig.addNunjucksAsyncFilter("fetchZipDetails", single_zip_lib);
 
   // Render "firstrequestrender" on first request
