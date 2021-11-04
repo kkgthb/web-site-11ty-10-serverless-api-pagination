@@ -1,0 +1,24 @@
+{
+  "name": "web-site-11ty-10-serverless-api-pagination",
+  "author": "Katie Kodes",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eleventy.js",
+  "scripts": {
+    "build": "npm-run-all clean build:11ty",
+    "build:11ty": "npx @11ty/eleventy",
+    "clean": "rimraf dist",
+    "dev": "npm-run-all clean build:11ty -p watch:11ty",
+    "develop": "dev",
+    "watch:11ty": "npx @11ty/eleventy --watch --serve"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "beta",
+    "@netlify/functions": "latest",
+    "cross-env": "latest",
+    "dotenv": "latest",
+    "node-fetch": "latest",
+    "npm-run-all": "latest",
+    "rimraf": "latest"
+  }
+}

@@ -1,0 +1,13 @@
+[[redirects]]
+from = "/alwaysrenderthis/"
+to = "/.netlify/functions/alwaysrerender"
+status = 200
+force = true
+_generated_by_eleventy_serverless = "alwaysrerender"
+
+[[redirects]]
+from = "/slessposter/"
+to = "/.netlify/functions/firstrequestrender"
+status = 200
+force = true
+_generated_by_eleventy_serverless = "firstrequestrender"
